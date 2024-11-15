@@ -40,7 +40,7 @@ export async function generateMetadata(
     }
 
     const file = data.result[0];
-    const title = `Bokep ${file.title} - ${SITENAME}`;
+    const title = `Bokep ${file.title}`;
     const description = `Bokep ${file.title} di ${SITENAME} Video Bokep Indo Bocil Jepang Ngentot Jav Jilbab Smp Barat Mama Viral Sma Terbaru`;
     const image = file.splash_img;
     const previousOgImages = (await parent).openGraph?.images || [];
@@ -82,10 +82,30 @@ export default async function Video({ params }: PageProps) {
     }
 
     const file = data.result[0];
-        const jsonLd2 = {
+  const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'VideoObject',
+        name: `Bokep ${file.title}`,
+        thumbnailUrl: file.splash_img,
+        description: `Bokep ${file.title} di ${SITENAME} Video Bokep Indo Bocil Jepang Ngentot Jav Jilbab Smp Barat Mama Viral Sma Terbaru`,
+        url: `https://sdcolmek.pages.dev/v/${file.filecode}`,
+        embedUrl: `https://doodstream.com/e/${file.filecode}`,
+        uploadDate: new Date(
+            file.uploaded + ".000Z"
+        ).toISOString(),
+        interactionStatistic: {
+            '@type': `InteractionCounter`,
+                userInteractionCount: `${file.views}`,
+            interactionType: {
+                '@type': `WatchAction`,
+                target: `https://sdcolmek.pages.dev/v/${file.filecode}`
+            }  
+        }
+        }
+      const jsonLd2 = {
         '@context': 'https://schema.org',
         '@type': 'Article',
-        headline: `Bokep ${file.title} - ${SITENAME}`,
+        headline: `Bokep ${file.title}`,
         image: file.splash_img,
         description: `Bokep ${file.title} di ${SITENAME} Video Bokep Indo Bocil Jepang Ngentot Jav Jilbab Smp Barat Mama Viral Sma Terbaru`,
         url: `https://sdcolmek.pages.dev/v/${file.filecode}`,
@@ -113,7 +133,7 @@ export default async function Video({ params }: PageProps) {
         const jsonLd3 = {
             '@context': 'https://schema.org', 
             '@type': 'Book', 
-            'name': `Bokep ${file.title} - ${SITENAME}`, 
+            'name': `Bokep ${file.title}`, 
             'aggregateRating': {
             '@type': 'AggregateRating',	
                 'ratingValue': '5',	
@@ -127,6 +147,10 @@ export default async function Video({ params }: PageProps) {
         {/* Add JSON-LD to your page */}
         <script
           type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd2) }}
         />
         <script
@@ -137,7 +161,7 @@ export default async function Video({ params }: PageProps) {
         </section>
             <iframe
                 className="w-full h-[30vh] md:h-[55vh] lg:h-[70vh]"
-                src={`https://${upstream}/e/${file.filecode}`}
+                src={`https://doodstream.com/e/${file.filecode}`}
                 scrolling="no"
                 title={file.title}
                 frameBorder={0}
